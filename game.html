@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="css/game.css">
 </head>
 
 <body>
@@ -15,8 +15,8 @@
         <div class="nav-container">
             <h1 class="nav-logo">🗺️ Maze Escape</h1>
             <ul class="nav-menu">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="game.html">Play Game</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="game.html" class="active">Play Game</a></li>
                 <li><a href="scoreboard.html">Scoreboard</a></li>
                 <li><a href="rules.html">Rules</a></li>
                 <li><button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle"
@@ -26,8 +26,124 @@
     </nav>
 
     <main class="game-container">
-        <div class="betting-section">
-            
+        <div class="game-board">
+            <!-- Maze Section  -->
+            <div class="maze-container">
+                <canvas id="maze-canvas"></canvas>
+            </div>
+
+            <div class="game-info-bar">
+                <div class="info-item">
+                    <span class="info-label">🎯 Difficulty:</span>
+                    <span class="info-value" id="difficulty-display">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">💎 Win Multiplier:</span>
+                    <span class="info-value" id="multiplier-display">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">⏱️ Time Left:</span>
+                    <span class="info-value" id="time-display">--</span>
+                </div>
+            </div>
+
+            <div class="timer-bar-container">
+                <div class="timer-bar" id="timer-bar"></div>
+            </div>
+
+            <div class="game-status">
+                <div id="game-message" class="message-box">
+                    Place your bet and click "Start Maze" to begin!
+                </div>
+            </div>
+
+            <div class="controls-section">
+                <div class="keyboard-hint">
+                    <p>🎮 Controls: Arrow Keys ⬆️⬇️⬅️➡️ or WASD</p>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="control-btn" onclick="movePlayer('up')">⬆️</button>
+                </div>
+                <div class="control-buttons-row">
+                    <button class="control-btn" onclick="movePlayer('left')">⬅️</button>
+                    <button class="control-btn" onclick="movePlayer('down')">⬇️</button>
+                    <button class="control-btn" onclick="movePlayer('right')">➡️</button>
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <button id="start-btn" class="btn btn-primary" onclick="startMaze()">🗺️ Start Maze</button>
+            </div>
+
+            <!-- Betting Section  -->
+             <div class="betting-section">
+                <div class="bank-display">
+                    <div class="bank-label">💰 Your Bank</div>
+                    <div class="bank-amount">$<span id="bank-amount">1000</span></div>
+                </div>
+
+                <div class="betting-area">
+                    <!-- Available Chips -->
+                     <div class="chips-available">
+                        <h3>🎰 Available Chips</h3>
+                        <div class="chips-container">
+                            <div class="chip-stack">
+                                <div class="chip chip-1" id="chip-1" onclick="addChipToBet(1)">
+                                    <span>$1</span>
+                                </div>
+                            </div>
+
+                            <div class="chip-stack">
+                                <div class="chip chip-5" id="chip-5" onclick="addChipToBet(5)">
+                                    <span>$5</span>
+                                </div>
+                            </div>
+
+                            <div class="chip-stack">
+                                <div class="chip chip-25" id="chip-25" onclick="addChipToBet(25)">
+                                    <span>$25</span>
+                                </div>
+                            </div>
+
+                            <div class="chip-stack">
+                                <div class="chip chip-50" id="chip-50" onclick="addChipToBet(50)">
+                                    <span>$50</span>
+                                </div>
+                            </div>
+
+                            <div class="chip-stack">
+                                <div class="chip chip-100" id="chip-100" onclick="addChipToBet(100)">
+                                    <span>$100</span>
+                                </div>
+                            </div>
+
+                            <div class="chip-stack">
+                                <div class="chip chip-500" id="chip-500" onclick="addChipToBet(500)">
+                                    <span>$500</span>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+
+                    <!-- Current Bet Area  -->
+                     <div class="current-bet-area">
+                        <h3>💵 Current Bet</h3>
+                        <div class="bet-chips-display" id="bet-chips-display">
+                                <!-- Dynamically added chips will appear here -->
+                        </div>
+                        <div class="bet-total-display">
+                            <div class="bet-total-label">Total Bet</div>
+                            <div class="bet-total-amount">$<span id="bet-total">0</span></div>
+                        </div>
+                     </div>
+                </div>
+
+                <div class="bet-controls">
+                    <button onclick="clearAllBets()" class="btn btn-secondary">🗑️ Clear All Bets</button>
+                    <button onclick="allIn()" class="btn btn-danger">💯 All In</button>
+                </div>
+             </div>
         </div>
     </main>
 
