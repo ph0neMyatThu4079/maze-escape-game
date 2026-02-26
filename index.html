@@ -1,26 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Maze Escape - Home</title>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/home.css">
 </head>
-
 <body>
-
     <nav class="navbar">
         <div class="nav-container">
             <h1 class="nav-logo">🗺️ Maze Escape</h1>
-            <ul class="nav-menu">
+
+            <!-- Hamburger button -->
+            <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="nav-menu">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="game.html">Play Game</a></li>
                 <li><a href="scoreboard.html">Scoreboard</a></li>
                 <li><a href="rules.html">Rules</a></li>
-                <li><button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle"
-                        title="Toggle Dark Mode">🌙</button></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle" title="Toggle Dark Mode">🌙</button></li>
             </ul>
         </div>
     </nav>
@@ -31,41 +35,35 @@
             <h1 class="game-title">Maze Escape</h1>
             <p class="game-tagline">Navigate the maze. Beat the clock. Win big!</p>
             
-            <div>
+            <div class="btn-group">
                 <a href="game.html" class="btn btn-primary">🎮 Start Game</a>
                 <a href="rules.html" class="btn btn-secondary">📖 How to Play</a>
             </div>
-
-
+            
             <div class="features">
                 <div class="feature">
-                    <span class="feature-icon">🎯</span>
-                    <h3>Simple Rules</h3>
-                    <p>Easy to learn, fun to master</p>
+                    <span class="feature-icon">🗺️</span>
+                    <h3>Random Mazes</h3>
+                    <p>New challenge every time!</p>
                 </div>
                 <div class="feature">
                     <span class="feature-icon">💰</span>
                     <h3>Betting System</h3>
-                    <p>Place bets with casino chips!</p>
+                    <p>Bet with casino chips, win up to 3x!</p>
                 </div>
                 <div class="feature">
-                    <span class="feature-icon">📊</span>
-                    <h3>Track Stats</h3>
-                    <p>See your win/loss record</p>
-                </div>
-                <div class="feature">
-                    <span class="feature-icon">📱</span>
-                    <h3>Mobile Friendly</h3>
-                    <p>Play on any device, anywhere!</p>
+                    <span class="feature-icon">⏱️</span>
+                    <h3>Beat The Clock</h3>
+                    <p>Race against time to escape!</p>
                 </div>
             </div>
         </div>
     </main>
 
     <footer class="footer">
-        <p>Maze Escape Game| © 2025</p>
+        <p>Created for Coursework | © 2024</p>
     </footer>
 
+    <script src="js/main.js"></script>
 </body>
-
 </html>

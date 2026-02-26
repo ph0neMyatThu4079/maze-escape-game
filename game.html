@@ -14,13 +14,20 @@
     <nav class="navbar">
         <div class="nav-container">
             <h1 class="nav-logo">🗺️ Maze Escape</h1>
-            <ul class="nav-menu">
+
+            <!-- Hamburger button -->
+            <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul class="nav-menu" id="nav-menu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="game.html" class="active">Play Game</a></li>
                 <li><a href="scoreboard.html">Scoreboard</a></li>
                 <li><a href="rules.html">Rules</a></li>
-                <li><button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle"
-                        title="Toggle Dark Mode">🌙</button></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle" title="Toggle Dark Mode">🌙</button></li>
             </ul>
         </div>
     </nav>
@@ -150,6 +157,8 @@
     <footer class="footer">
         <p>Maze Escape Game| © 2025</p>
     </footer>
+
+    <script src="js/main.js"></script>
 
 </body>
 
