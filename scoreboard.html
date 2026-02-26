@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scoreboard</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/scoreboard.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-logo">🗺️ Maze Escape</h1>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="game.html">Play Game</a></li>
+                <li><a href="scoreboard.html" class="active">Scoreboard</a></li>
+                <li><a href="rules.html">Rules</a></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle"
+                        title="Toggle Dark Mode">🌙</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="scoreboard-container">
+        <h1 class="page-title">📊 Your Statistics</h1>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">🎮</div>
+                <div class="stat-number" id="total-games">0</div>
+                <div class="stat-label">Games Played</div>
+            </div>
+
+            <div class="stat-card win">
+                <div class="stat-icon">🏆</div>
+                <div class="stat-number" id="player-wins">0</div>
+                <div class="stat-label">Player Wins</div>
+            </div>
+
+            <div class="stat-card loss">
+                <div class="stat-icon">🎩</div>
+                <div class="stat-number" id="dealer-wins">0</div>
+                <div class="stat-label">Dealer Wins</div>
+            </div>
+
+            
+        </div>
+
+        <div class="win-rate-section">
+            <h2>Win Rate</h2>
+            <div class="progress-bar">
+                <div id="win-rate-fill" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <p class="win-rate-text">
+                <span id="win-percentage">0</span>% win rate
+            </p>
+        </div>
+
+        <div class="scoreboard-actions">
+            <a href="game.html" class="btn btn-primary">🎮 Play Again</a>
+            <button onclick="resetStats()" class="btn btn-danger">🗑️ Reset Statistics</button>
+        </div>
+
+        <div class="info-box">
+            <p><strong>💡 Tip:</strong> Your statistics are saved in your browser's local storage. They will persist even after closing the browser!</p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Maze Escape Game| © 2025</p>
+    </footer>
+
+</body>
+
+</html>

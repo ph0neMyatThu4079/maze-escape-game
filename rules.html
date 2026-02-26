@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rules</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/rules.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-logo">🗺️ Maze Escape</h1>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="game.html">Play Game</a></li>
+                <li><a href="scoreboard.html">Scoreboard</a></li>
+                <li><a href="rules.html" class="active">Rules</a></li>
+                <li><button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle"
+                        title="Toggle Dark Mode">🌙</button></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="rules-container">
+        <h1 class="page-title">📖 How to Play Maze Escape</h1>
+
+        <section class="rule-section">
+            <h2>🎯 Objective</h2>
+            <p>Navigate through the randomly generated maze from start (top-left) to exit (bottom-right) before time runs out!</p>
+        </section>
+
+        <section class="rule-section">
+            <h2>💰 How to Play</h2>
+            <ol class="rules-list">
+                <li><strong>Place Your Bet:</strong> Click chips ($1, $5, $25, $50, $100, $500) to add them to your bet</li>
+                <li><strong>Start Maze:</strong> Click "Start Maze" button</li>
+                <li><strong>Random Difficulty:</strong> Game randomly selects Easy, Medium, or Hard difficulty</li>
+                <li><strong>Navigate:</strong> Use arrow keys (⬆️⬇️⬅️➡️) or WASD to move through the maze</li>
+                <li><strong>Reach Exit:</strong> Get to the gold door (🚪) before time runs out!</li>
+                <li><strong>Win/Lose:</strong> Win multiplied bet if you escape, lose bet if time runs out</li>
+            </ol>
+        </section>
+
+        <section class="rule-section">
+            <h2>🎲 Difficulty Levels</h2>
+            <div class="outcome-grid">
+                <div class="outcome-card win">
+                    <h3>Easy 🟢</h3>
+                    <ul>
+                        <li><strong>Maze Size:</strong> 15x15</li>
+                        <li><strong>Time Limit:</strong> 40 seconds</li>
+                        <li><strong>Win Multiplier:</strong> 1.5x</li>
+                        <li><strong>Example:</strong> Bet $100 → Win $150</li>
+                    </ul>
+                </div>
+                <div class="outcome-card draw">
+                    <h3>Medium 🟡</h3>
+                    <ul>
+                        <li><strong>Maze Size:</strong> 20x20</li>
+                        <li><strong>Time Limit:</strong> 30 seconds</li>
+                        <li><strong>Win Multiplier:</strong> 2x</li>
+                        <li><strong>Example:</strong> Bet $100 → Win $200</li>
+                    </ul>
+                </div>
+                <div class="outcome-card loss">
+                    <h3>Hard 🔴</h3>
+                    <ul>
+                        <li><strong>Maze Size:</strong> 25x25</li>
+                        <li><strong>Time Limit:</strong> 20 seconds</li>
+                        <li><strong>Win Multiplier:</strong> 3x</li>
+                        <li><strong>Example:</strong> Bet $100 → Win $300</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="rule-section">
+            <h2>🕹️ Controls</h2>
+            <p><strong>Keyboard Controls:</strong></p>
+            <ul class="rules-list">
+                <li><strong>Arrow Keys:</strong> ⬆️ Up, ⬇️ Down, ⬅️ Left, ➡️ Right</li>
+                <li><strong>WASD Keys:</strong> W (Up), A (Left), S (Down), D (Right)</li>
+            </ul>
+            <p><strong>On-Screen Controls:</strong></p>
+            <ul class="rules-list">
+                <li>Click the arrow buttons below the maze</li>
+                <li>Works on mobile and tablets</li>
+            </ul>
+        </section>
+
+        <section class="rule-section">
+            <h2>🏆 Winning & Losing</h2>
+            <div class="outcome-grid">
+                <div class="outcome-card win">
+                    <h3>You Win! 🎉</h3>
+                    <ul>
+                        <li>Reach the exit (🚪) before time runs out</li>
+                        <li>Get your bet back + winnings (1.5x, 2x, or 3x)</li>
+                        <li>Bank balance increases</li>
+                    </ul>
+                </div>
+                <div class="outcome-card loss">
+                    <h3>You Lose 😢</h3>
+                    <ul>
+                        <li>Time runs out before reaching exit</li>
+                        <li>Click "Give Up" button</li>
+                        <li>Lose your bet amount</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="rule-section warning">
+            <h2>⚠️ Important Notes</h2>
+            <ul class="rules-list">
+                <li><strong>Random Difficulty:</strong> You don't choose the difficulty - it's random each game!</li>
+                <li><strong>Unique Mazes:</strong> Every maze is randomly generated - never the same twice</li>
+                <li><strong>Timer Warning:</strong> Bar turns yellow at 10s, red (flashing) at 5s</li>
+                <li><strong>Cannot Move Through Walls:</strong> Black walls block your path</li>
+                <li><strong>Bankruptcy Protection:</strong> If you lose all money, bank resets to $1000</li>
+            </ul>
+        </section>
+
+        <section class="rule-section info">
+            <h2>💡 Pro Tips</h2>
+            <ul class="rules-list">
+                <li><strong>Look Ahead:</strong> Plan your route before moving</li>
+                <li><strong>Stay Calm:</strong> Don't panic when timer gets low</li>
+                <li><strong>Bet Smart:</strong> Harder mazes pay more, but are riskier</li>
+                <li><strong>Practice:</strong> Learn maze patterns to solve faster</li>
+            </ul>
+        </section>
+
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="game.html" class="btn btn-primary">🎮 Ready to Play!</a>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>Maze Escape Game| © 2025</p>
+    </footer>
+
+</body>
+
+</html>

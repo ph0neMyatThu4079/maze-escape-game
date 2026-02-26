@@ -1,0 +1,124 @@
+.scoreboard-container {
+    flex: 1;
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.page-title {
+    text-align: center;
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.stat-card {
+    background: var(--section-bg);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    transition: all 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-card.win {
+    background: linear-gradient(135deg, #d5f4e6 0%, #a8e6cf 100%);
+}
+
+[data-theme="dark"] .stat-card.win {
+    background: linear-gradient(135deg, #2d5a3d 0%, #1e4a2f 100%);
+}
+
+.stat-card.loss {
+    background: linear-gradient(135deg, #fadbd8 0%, #f8b4b0 100%);
+}
+
+[data-theme="dark"] .stat-card.loss {
+    background: linear-gradient(135deg, #5a2d2d 0%, #4a1e1e 100%);
+}
+
+.stat-card.draw {
+    background: linear-gradient(135deg, #fef5e7 0%, #fdeaa8 100%);
+}
+
+[data-theme="dark"] .stat-card.draw {
+    background: linear-gradient(135deg, #5a4d2d 0%, #4a3e1e 100%);
+}
+
+.stat-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.win-rate-section {
+    background: var(--section-bg);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    transition: all 0.3s;
+}
+
+.win-rate-section h2 {
+    color: #667eea;
+    margin-bottom: 1rem;
+    text-align: center;
+}   
+
+.progress-bar {
+    background: var(--message-bg);
+    height: 40px;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+}
+
+.progress-fill {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.win-rate-text {
+    text-align: center;
+    font-size: 1.3rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.scoreboard-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.info-box {
+    background: var(--section-bg-alt);
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    color: var(--text-primary);
+    transition: all 0.3s;
+}
