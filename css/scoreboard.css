@@ -1,3 +1,4 @@
+/* ===== SCOREBOARD PAGE ===== */
 .scoreboard-container {
     flex: 1;
     padding: 2rem;
@@ -14,98 +15,187 @@
     text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
 }
 
+/* Summary Cards */
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
     gap: 1.5rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
 }
 
 .stat-card {
     background: var(--section-bg);
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 5px 15px var(--shadow-color);
-    transition: all 0.3s;
+    transition: transform 0.3s;
 }
 
-.stat-card:hover {
-    transform: translateY(-5px);
-}
+.stat-card:hover { transform: translateY(-5px); }
 
-.stat-card.win {
-    background: linear-gradient(135deg, #d5f4e6 0%, #a8e6cf 100%);
-}
+.stat-card.win  { background: linear-gradient(135deg, #d5f4e6 0%, #a8e6cf 100%); }
+.stat-card.loss { background: linear-gradient(135deg, #fadbd8 0%, #f8b4b0 100%); }
+.stat-card.bank { background: linear-gradient(135deg, #fef5e7 0%, #fdeaa8 100%); }
 
-[data-theme="dark"] .stat-card.win {
-    background: linear-gradient(135deg, #2d5a3d 0%, #1e4a2f 100%);
-}
+[data-theme="dark"] .stat-card.win  { background: linear-gradient(135deg, #2d5a3d 0%, #1e4a2f 100%); }
+[data-theme="dark"] .stat-card.loss { background: linear-gradient(135deg, #5a2d2d 0%, #4a1e1e 100%); }
+[data-theme="dark"] .stat-card.bank { background: linear-gradient(135deg, #5a4d2d 0%, #4a3e1e 100%); }
 
-.stat-card.loss {
-    background: linear-gradient(135deg, #fadbd8 0%, #f8b4b0 100%);
-}
+.stat-icon   { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.stat-number { font-size: 1.7rem; font-weight: bold; color: var(--text-primary); margin-bottom: 0.3rem; }
+.stat-label  { font-size: 0.85rem; color: var(--text-secondary); font-weight: 500; }
 
-[data-theme="dark"] .stat-card.loss {
-    background: linear-gradient(135deg, #5a2d2d 0%, #4a1e1e 100%);
-}
-
-.stat-card.draw {
-    background: linear-gradient(135deg, #fef5e7 0%, #fdeaa8 100%);
-}
-
-[data-theme="dark"] .stat-card.draw {
-    background: linear-gradient(135deg, #5a4d2d 0%, #4a3e1e 100%);
-}
-
-.stat-icon {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-.stat-number {
-    font-size: 3rem;
-    font-weight: bold;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-}
-
+/* Win Rate */
 .win-rate-section {
     background: var(--section-bg);
     padding: 2rem;
     border-radius: 15px;
     margin-bottom: 2rem;
     box-shadow: 0 5px 15px var(--shadow-color);
-    transition: all 0.3s;
 }
 
-.win-rate-section h2 {
-    color: #667eea;
-    margin-bottom: 1rem;
-    text-align: center;
-}   
+.win-rate-section h2 { color: #667eea; margin-bottom: 1rem; }
 
 .progress-bar {
     background: var(--message-bg);
-    height: 40px;
-    border-radius: 20px;
+    height: 32px;
+    border-radius: 16px;
     overflow: hidden;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .progress-fill {
     background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
     height: 100%;
-    transition: width 0.5s ease;
+    border-radius: 16px;
+    transition: width 0.6s ease;
 }
 
 .win-rate-text {
     text-align: center;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     color: var(--text-primary);
     font-weight: 600;
 }
 
+/* Difficulty Breakdown */
+.difficulty-section {
+    background: var(--section-bg);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.difficulty-section h2 { color: #667eea; margin-bottom: 1.5rem; }
+
+.difficulty-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+}
+
+.diff-card {
+    border-radius: 12px;
+    padding: 1.25rem;
+    border-left: 5px solid;
+    background: var(--section-bg-alt);
+    transition: transform 0.3s;
+}
+
+.diff-card:hover { transform: translateY(-3px); }
+
+.diff-easy   { border-color: #2ecc71; }
+.diff-medium { border-color: #f39c12; }
+.diff-hard   { border-color: #e74c3c; }
+
+.diff-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.diff-emoji { font-size: 1.2rem; }
+.diff-name  { font-size: 1.1rem; font-weight: 700; color: var(--text-primary); flex: 1; }
+.diff-meta  { font-size: 0.75rem; color: var(--text-secondary); }
+
+.diff-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.diff-stat       { text-align: center; }
+.diff-stat-label { display: block; font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.2rem; }
+.diff-stat-value { display: block; font-size: 1.3rem; font-weight: 700; color: var(--text-primary); }
+
+.win-color  { color: #2ecc71 !important; }
+.loss-color { color: #e74c3c !important; }
+
+.diff-bar-wrap {
+    height: 8px;
+    background: var(--message-bg);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.diff-bar { height: 100%; border-radius: 4px; transition: width 0.6s ease; }
+.diff-bar-easy   { background: #2ecc71; }
+.diff-bar-medium { background: #f39c12; }
+.diff-bar-hard   { background: #e74c3c; }
+
+/* Session History */
+.history-section {
+    background: var(--section-bg);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.history-section h2  { color: #667eea; margin-bottom: 0.4rem; }
+
+.history-hint {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+}
+
+.history-table-wrap {
+    overflow-x: auto;
+    border-radius: 10px;
+    border: 1px solid var(--shadow-color);
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.history-table th {
+    background: rgba(102, 126, 234, 0.15);
+    color: #667eea;
+    font-weight: 700;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.history-table td {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--shadow-color);
+    color: var(--text-primary);
+}
+
+.history-table tbody tr:hover { background: rgba(102, 126, 234, 0.05); }
+
+.time-sub       { font-size: 0.78rem; color: var(--text-secondary); }
+.highlight-bank { font-weight: 700; color: #f39c12; }
+
+/* Actions */
 .scoreboard-actions {
     display: flex;
     justify-content: center;
@@ -114,11 +204,32 @@
     flex-wrap: wrap;
 }
 
+.scoreboard-actions a{
+    text-decoration: none;
+    color: inherit; 
+}
+
 .info-box {
     background: var(--section-bg-alt);
-    padding: 1.5rem;
+    padding: 1.25rem 1.5rem;
     border-radius: 10px;
     text-align: center;
-    color: var(--text-primary);
-    transition: all 0.3s;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .scoreboard-container { padding: 1rem; }
+    .page-title           { font-size: 1.8rem; margin-bottom: 1.5rem; }
+    .stats-grid           { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    .stat-card            { padding: 1rem; }
+    .stat-icon            { font-size: 2rem; }
+    .stat-number          { font-size: 1.7rem; }
+    .difficulty-grid      { grid-template-columns: 1fr; }
+    .history-section,
+    .win-rate-section,
+    .difficulty-section   { padding: 1.25rem; }
+    .scoreboard-actions   { flex-direction: column; align-items: stretch; }
+    .scoreboard-actions .btn { width: 100%; margin: 0; }
 }

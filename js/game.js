@@ -1,198 +1,3 @@
-// // ===== Betting System =====
-// let playerBank = 1000;
-// let currentBet = 0;
-// let betChips = {};
-// let gameActive = false;
-
-// // Difficulty settings
-// const DIFFICULTIES = {
-//     easy : {size: 15, time: 40, multiplier: 1.5, name: 'EASY', color: '#2ecc71'},
-//     medium : {size: 20, time: 30, multiplier: 2, name: 'MEDIUM', color: '#f1c40f'},
-//     hard : {size: 25, time: 20, multiplier: 3, name: 'HARD', color: '#e74c3c'}
-// }
-
-
-// //=== Bank Management =====
-// function updateBankDisplay() {
-//     document.getElementById('bank-amount').textContent = playerBank;
-//     document.getElementById('bet-total').textContent = currentBet;
-//     updateChipAvailability();
-//     localStorage.setItem('playerBank', playerBank);
-    
-// }
-
-// function updateChipAvailability(){
-//     const chipValues = [1, 5, 25, 50, 100, 500];
-//     chipValues.forEach(value => {
-//         const chipEl = document.getElementById(`chip-${value}`);
-//         if(chipEl){
-//             if(playerBank >= value && !gameActive) {
-//                 chipEl.classList.remove('disabled');
-//             } else {
-//                 chipEl.classList.add('disabled');
-//             }
-//         }
-//     })
-// }
-
-// function loadBank(){
-//     const savedBank = localStorage.getItem('playerBank');
-//     if(savedBank !== null) {
-//         playerBank = parseInt(savedBank);
-//     }
-//     updateBankDisplay();
-//     renderDisplay();
-// }
-
-// // Chip Betting
-// function addChipToBet(value) {
-//     if(gameActive){
-//         alert('Cannot change bet during an active game!');
-//         return;
-//     }
-
-//     if(playerBank < value){
-//         alert('Not enough money in your bank!');
-//         return;
-//     }
-
-//     const chipEl = document.getElementById(`chip-${value}`);
-//     if(chipEl){
-//         chipEl.classList.add('chip-animating');
-//         setTimeout(() => {
-//             chipEl.classList.remove('chip-animating');
-//         }, 500);
-//     }
-
-//     playerBank -= value;
-//     currentBet += value;
-
-//     if(!betChips[value]){
-//         betChips[value] = 0;
-//     }
-
-//     betChips[value]++;
-
-//     updateBankDisplay();
-//     renderBetChips()
-// }
-
-// // Chip Betting
-// function removeChipFromBet(value) {
-//     if (gameActive) {
-//         alert('Cannot change bet during an active game!');
-//         return;
-//     }
-
-//     if (!betChips[value] || betChips[value] === 0) {
-//         return;
-//     }
-
-//     playerBank += value;
-//     currentBet -= value;
-
-//     betChips[value]--;
-
-//     if (betChips[value] === 0) {
-//         delete betChips[value];
-//     }
-
-//     updateBankDisplay();
-//     renderBetChips();
-// }
-
-// function renderBetChips(){
-//     const betDisplay = document.getElementById('bet-chips-display');
-//     if(!betDisplay) return;
-
-//     betDisplay.innerHTML = '';
-
-//     const chipValues = Object.keys(betChips).map(Number).sort((a, b) => a - b);
-
-//     chipValues.forEach(value => {
-//         const count = betChips[value];
-//         if(count > 0){
-//             const pile = document.createElement('div');
-//             pile.className = 'bet-chip-pile';
-//             pile.onclick = () => removeChipFromBet(value);
-
-//             const chip = document.createElement('div');
-//             chip.className = `bet-chip chip chip-${value}`;
-//             chip.innerHTML = `<span>$${value}</span>`;
-
-//             pile.appendChild(chip);
-
-//             if(count > 1){
-//                 const countBadge = document.createElement('div');
-//                 countBadge.className = 'chip-count';
-//                 countBadge.textContent = count;
-//                 pile.appendChild(countBadge);
-//             }
-
-//             betDisplay.appendChild(pile);
-//         }
-
-//     })
-// }
-
-// function clearAllBets() {
-//     if (gameActive) {
-//         alert('Cannot change bet during an active game!');
-//         return;
-//     }
-
-//     Object.keys(betChips).forEach(value => {
-//         playerBank += parseInt(value) * betChips[value];
-//     });
-
-//     currentBet = 0;
-//     betChips = {};
-//     updateBankDisplay();
-//     renderBetChips();
-// }
-
-
-// function allIn() {
-//     if (gameActive) {
-//         alert('Cannot change bet during an active game!');
-//         return;
-//     }
-
-//     if (playerBank === 0) {
-//         alert('You have no money left!');
-//         return;
-//     }
-
-//     clearAllBets();
-
-//     const chipValues = [500, 100, 50, 25, 5, 1];
-//     let remaining = playerBank;
-
-//     chipValues.forEach(value => {
-//         while (remaining >= value) {
-//             remaining -= value;
-//             currentBet += value;
-//             if (!betChips[value]) betChips[value] = 0;
-//             betChips[value]++;
-//         }
-//     });
-
-//     playerBank = 0;
-//     updateBankDisplay();
-//     renderBetChips();
-// }
-
-// // === Maze Game Logic ===
-
-
-
-
-// // Initialize bank on page load
-// document.addEventListener('DOMContentLoaded', () => {
-//     loadBank();
-//     renderBetChips()
-// });
-
 // ===== Betting System =====
 let playerBank = 1000;
 let currentBet = 0;
@@ -479,8 +284,14 @@ function generateMaze(size) {
         }
     }
 
-    // --- Place exit — random edge cell, not the start (0,0) ---
-    let side, exitX, exitY;
+    // --- Place exit — enforce minimum Manhattan distance from start (0,0) ---
+    // Ratio of max possible distance (size-1)*2 that the exit must be at least.
+    // Easy: 60%  Medium: 70%  Hard: 80%  — so the exit is always meaningfully far.
+    const minDistRatio = { EASY: 0.60, MEDIUM: 0.70, HARD: 0.80 };
+    const ratio = minDistRatio[currentDifficulty ? currentDifficulty.name : 'MEDIUM'] ?? 0.70;
+    const minDist = Math.floor((size - 1) * 2 * ratio);
+
+    let side, exitX, exitY, attempts = 0;
     do {
         side = Math.floor(Math.random() * 4);
         switch (side) {
@@ -489,7 +300,11 @@ function generateMaze(size) {
             case 2: exitX = Math.floor(Math.random() * size); exitY = size - 1;   break; // bottom
             case 3: exitX = 0;        exitY = Math.floor(Math.random() * size);   break; // left
         }
-    } while (exitX === 0 && exitY === 0);
+        attempts++;
+        // Relax constraint after many attempts to guarantee placement
+        const threshold = attempts > 50 ? Math.floor(minDist * 0.6) : minDist;
+        if (exitX + exitY >= threshold) break;
+    } while (true);
 
     exitPos = { x: exitX, y: exitY };
 
@@ -721,8 +536,29 @@ function endGame(won) {
         // Bankruptcy protection
         if (playerBank <= 0) {
             playerBank = 1000;
-            setTimeout(() => setMessage('💸 You went bankrupt! Bank reset to $1000.'), 1500);
+            // NOTE: session is closed AFTER saveGameResult() below so the
+            // final loss gets recorded in the current session, not a new one.
+            // We set a flag here and act on it after saving.
+            window._bankruptThisGame = true;
         }
+    }
+
+    // Save result BEFORE clearing the bet so the amount is captured correctly
+    saveGameResult(won);
+
+    // Now close the session if bankruptcy occurred — after the loss is recorded
+    if (window._bankruptThisGame) {
+        window._bankruptThisGame = false;
+        const sessions = JSON.parse(localStorage.getItem('sessions') || '[]');
+        if (sessions.length > 0) { sessions[sessions.length - 1].closed = true; }
+        localStorage.setItem('sessions', JSON.stringify(sessions));
+        // Clear current-session per-difficulty counters
+        ['easy', 'medium', 'hard'].forEach(k => {
+            localStorage.setItem('cur_wins_'   + k, '0');
+            localStorage.setItem('cur_losses_' + k, '0');
+        });
+        localStorage.setItem('playerBank', playerBank);
+        setTimeout(() => showPopup('You went bankrupt! Bank reset to $1,000.', 'bankrupt', true), 1600);
     }
 
     currentBet = 0;
@@ -730,24 +566,46 @@ function endGame(won) {
     renderBetChips();
     updateBankDisplay();
     localStorage.setItem('playerBank', playerBank);
-    saveGameResult(won);
 }
 
 function saveGameResult(won) {
-    const results = JSON.parse(localStorage.getItem('gameResults') || '[]');
-    results.push({
-        date:       new Date().toISOString(),
-        won,
-        difficulty: currentDifficulty ? currentDifficulty.name : '?',
-        bet:        currentBet
-    });
-    localStorage.setItem('gameResults', JSON.stringify(results));
-
-    // Update scoreboard counters
+    // Update flat counters used by scoreboard summary cards
     const wins   = parseInt(localStorage.getItem('wins')   || '0');
     const losses = parseInt(localStorage.getItem('losses') || '0');
     if (won) localStorage.setItem('wins',   wins + 1);
     else     localStorage.setItem('losses', losses + 1);
+
+    // Update current session — a session runs from first game (or last reset) until reset.
+    // Each session: { startDate, games, wins, losses, highestBank, closed }
+    const sessions = JSON.parse(localStorage.getItem('sessions') || '[]');
+    let current = sessions.length > 0 ? sessions[sessions.length - 1] : null;
+
+    if (!current || current.closed) {
+        current = { startDate: new Date().toISOString(), games: 0, wins: 0, losses: 0, highestBank: 1000, closed: false };
+        sessions.push(current);
+        // New session started — wipe per-difficulty counters BEFORE incrementing below
+        ['easy', 'medium', 'hard'].forEach(k => {
+            localStorage.setItem('cur_wins_'   + k, '0');
+            localStorage.setItem('cur_losses_' + k, '0');
+        });
+    }
+
+    // Per-difficulty counters — MUST come after the new-session block so the
+    // clear above doesn't wipe the increment we're about to write
+    const diffKey = (currentDifficulty ? currentDifficulty.name : 'EASY').toLowerCase();
+    const dw = parseInt(localStorage.getItem('cur_wins_'   + diffKey) || '0');
+    const dl = parseInt(localStorage.getItem('cur_losses_' + diffKey) || '0');
+    if (won) localStorage.setItem('cur_wins_'   + diffKey, dw + 1);
+    else     localStorage.setItem('cur_losses_' + diffKey, dl + 1);
+
+    current.games++;
+    if (won) current.wins++;
+    else current.losses++;
+    // Only update highest if it exceeds the current recorded highest
+    // Minimum is always 1000 (the starting bank) — never track below that
+    if (playerBank > current.highestBank) current.highestBank = playerBank;
+
+    localStorage.setItem('sessions', JSON.stringify(sessions));
 }
 
 // ===== Player Movement =====
@@ -780,29 +638,48 @@ function movePlayer(direction) {
     }
 }
 
-// ===== Message Display =====
+// ===== Popup Message System =====
+let popupTimeout = null;
+
+function showPopup(text, type = '', persistent = false) {
+    const existing = document.getElementById('result-popup');
+    if (existing) existing.remove();
+    clearTimeout(popupTimeout);
+
+    const emojis = { win: '🎉', lose: '💀', warning: '⚠️', bankrupt: '💸' };
+    const emoji  = emojis[type] || '';
+
+    const overlay = document.createElement('div');
+    overlay.id = 'result-popup';
+    overlay.className = `popup-overlay popup-${type}`;
+    overlay.innerHTML = `
+        <div class="popup-box">
+            ${emoji ? `<div class="popup-emoji">${emoji}</div>` : ''}
+            <div class="popup-text">${text}</div>
+            <button class="popup-close btn ${type === 'win' ? 'btn-success' : type === 'lose' ? 'btn-danger' : 'btn-secondary'}" onclick="closePopup()">OK</button>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+    requestAnimationFrame(() => overlay.classList.add('popup-visible'));
+
+    if (!persistent) {
+        popupTimeout = setTimeout(() => closePopup(), 4000);
+    }
+}
+
+function closePopup() {
+    clearTimeout(popupTimeout);
+    const popup = document.getElementById('result-popup');
+    if (!popup) return;
+    popup.classList.remove('popup-visible');
+    popup.classList.add('popup-hiding');
+    setTimeout(() => popup.remove(), 300);
+}
+
 function setMessage(text, type = '') {
-    const box = document.getElementById('game-message');
-    if (!box) return;
-
-    box.textContent = text;
-    box.style.transition = 'all 0.3s ease';
-
-    box.style.background = '';
-    box.style.color = '';
-
-    if (type === 'win') {
-        box.style.background = 'linear-gradient(135deg, #d5f4e6, #a8e6cf)';
-        box.style.color = '#1a6b3a';
-    } else if (type === 'lose') {
-        box.style.background = 'linear-gradient(135deg, #fadbd8, #f8b4b0)';
-        box.style.color = '#7b241c';
-    } else if (type === 'warning') {
-        box.style.background = 'linear-gradient(135deg, #fef5e7, #fdeaa8)';
-        box.style.color = '#7d6608';
-    } else {
-        box.style.background = '';
-        box.style.color = '';
+    if (type === 'win' || type === 'lose' || type === 'warning' || type === 'bankrupt') {
+        showPopup(text, type, type === 'win' || type === 'lose');
     }
 }
 

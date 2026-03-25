@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,20 +7,14 @@
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/scoreboard.css">
 </head>
-
 <body>
 
     <nav class="navbar">
         <div class="nav-container">
             <h1 class="nav-logo">🗺️ Maze Escape</h1>
-
-            <!-- Hamburger button -->
             <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </button>
-
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="game.html">Play Game</a></li>
@@ -34,45 +27,157 @@
 
     <main class="scoreboard-container">
         <h1 class="page-title">📊 Your Statistics</h1>
-        
+
+        <!-- Summary Cards -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-icon">🎮</div>
                 <div class="stat-number" id="total-games">0</div>
                 <div class="stat-label">Games Played</div>
             </div>
-
             <div class="stat-card win">
                 <div class="stat-icon">🏆</div>
                 <div class="stat-number" id="player-wins">0</div>
-                <div class="stat-label">Player Wins</div>
+                <div class="stat-label">Wins</div>
             </div>
-
             <div class="stat-card loss">
-                <div class="stat-icon">❌</div>
+                <div class="stat-icon">💀</div>
                 <div class="stat-number" id="player-losses">0</div>
-                <div class="stat-label">Player Losses</div>
+                <div class="stat-label">Losses</div>
             </div>
-
+            <div class="stat-card bank">
+                <div class="stat-icon">💰</div>
+                <div class="stat-number" id="current-bank">$1000</div>
+                <div class="stat-label">Current Bank</div>
+            </div>
         </div>
 
+        <!-- Win Rate -->
         <div class="win-rate-section">
-            <h2>Win Rate</h2>
+            <h2>🎯 Overall Win Rate</h2>
             <div class="progress-bar">
-                <div id="win-rate-fill" class="progress-fill" style="width: 0%"></div>
+                <div id="win-rate-fill" class="progress-fill" style="width:0%"></div>
             </div>
-            <p class="win-rate-text">
-                <span id="win-percentage">0</span>% win rate
-            </p>
+            <p class="win-rate-text"><span id="win-percentage">0</span>% win rate</p>
         </div>
 
+        <!-- Per-Difficulty Breakdown -->
+        <div class="difficulty-section">
+            <h2>🎲 Performance by Difficulty</h2>
+            <div class="difficulty-grid">
+
+                <div class="diff-card diff-easy">
+                    <div class="diff-header">
+                        <span class="diff-emoji">🟢</span>
+                        <span class="diff-name">Easy</span>
+                        <span class="diff-meta">1.5× · 40s · 15×15</span>
+                    </div>
+                    <div class="diff-stats">
+                        <div class="diff-stat">
+                            <span class="diff-stat-label">Wins</span>
+                            <span class="diff-stat-value win-color" id="diff-easy-wins">0</span>
+                        </div>
+                        <div class="diff-stat">
+                            <span class="diff-stat-label">Losses</span>
+                            <span class="diff-stat-value loss-color" id="diff-easy-losses">0</span>
+                        </div>
+                        <div class="diff-stat">
+                            <span class="diff-stat-label">Win Rate</span>
+                            <span class="diff-stat-value" id="diff-easy-rate">0%</span>
+                        </div>
+                    </div>
+                    <div class="diff-bar-wrap">
+                        <div class="diff-bar diff-bar-easy" id="diff-easy-bar" style="width:0%"></div>
+                    </div>
+                </div>
+
+                <div class="diff-card diff-medium">
+                    <div class="diff-header">
+                        <span class="diff-emoji">🟡</span>
+                        <span class="diff-name">Medium</span>
+                        <span class="diff-meta">2× · 30s · 20×20</span>
+                    </div>
+                    <div class="diff-stats">
+                        <div class="diff-stat">
+                            <span class="diff-stat-label">Wins</span>
+                            <span class="diff-stat-value win-color" id="diff-medium-wins">0</span>
+                        </div>
+                        <div class="diff-stat">
+                            <span class="diff-stat-label">Losses</span>
+                            <span class="diff-stat-value loss-color" id="diff-medium-losses">0</span>
+                        </div>
+                        <div class="diff-stat">
+                            <span class="diff-stat-label">Win Rate</span>
+                            <span class="diff-stat-value" id="diff-medium-rate">0%</span>
+                        </div>
+                    </div>
+                    <div class="diff-bar-wrap">
+                        <div class="diff-bar diff-bar-medium" id="diff-medium-bar" style="width:0%"></div>
+                    </div>
+                </div>
+
+                <div class="diff-card diff-hard">
+                    <div class="diff-header">
+                        <span class="diff-emoji">🔴</span>
+                        <span class="diff-name">Hard</span>
+                        <span class="diff-meta">3× · 20s · 25×25</span>
+                    </div>
+                    <div class="diff-stats">
+                        <div class="diff-stat">
+                            <span class="diff-stat-label">Wins</span>
+                            <span class="diff-stat-value win-color" id="diff-hard-wins">0</span>
+                        </div>
+                        <div class="diff-stat">
+                            <span class="diff-stat-label">Losses</span>
+                            <span class="diff-stat-value loss-color" id="diff-hard-losses">0</span>
+                        </div>
+                        <div class="diff-stat">
+                            <span class="diff-stat-label">Win Rate</span>
+                            <span class="diff-stat-value" id="diff-hard-rate">0%</span>
+                        </div>
+                    </div>
+                    <div class="diff-bar-wrap">
+                        <div class="diff-bar diff-bar-hard" id="diff-hard-bar" style="width:0%"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Session History Table -->
+        <div class="history-section">
+            <h2>📋 Session History</h2>
+            <p class="history-hint">Each row = one session (from start or last reset until bankrupt or manual reset)</p>
+            <div class="history-table-wrap">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date &amp; Time</th>
+                            <th>Games Played</th>
+                            <th>Wins</th>
+                            <th>Losses</th>
+                            <th>Highest Bank</th>
+                        </tr>
+                    </thead>
+                    <tbody id="history-body">
+                        <tr>
+                            <td colspan="5" style="text-align:center;color:var(--text-secondary);padding:2rem;">
+                                No sessions yet — play a game first!
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Actions -->
         <div class="scoreboard-actions">
-            <a href="game.html" class="btn btn-primary">🎮 Play Again</a>
-            <button class="btn btn-danger">🗑️ Reset Statistics</button>
+            <button class="btn btn-primary"><a href="game.html" >🎮 Play Again</a></button>
+            <button class="btn btn-danger" onclick="resetStats()">🗑️ Reset Statistics</button>
         </div>
 
         <div class="info-box">
-            <p><strong>💡 Tip:</strong> Your statistics are saved in your browser's local storage. They will persist even after closing the browser!</p>
+            <p>💡 Resetting keeps your session history but resets all counters and bank back to $1,000.</p>
         </div>
     </main>
 
@@ -81,7 +186,6 @@
     </footer>
 
     <script src="js/main.js"></script>
-
+    <script src="js/scoreboard.js"></script>
 </body>
-
 </html>
