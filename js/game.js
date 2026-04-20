@@ -20,9 +20,9 @@ let CELL_SIZE = 20;
 
 // Difficulty settings
 const DIFFICULTIES = {
-    easy:   { size: 15, time: 40, multiplier: 1.5, name: 'EASY',   color: '#2ecc71' },
+    easy:   { size: 15, time: 30, multiplier: 1.5, name: 'EASY',   color: '#2ecc71' },
     medium: { size: 20, time: 30, multiplier: 2,   name: 'MEDIUM', color: '#f1c40f' },
-    hard:   { size: 25, time: 20, multiplier: 3,   name: 'HARD',   color: '#e74c3c' }
+    hard:   { size: 25, time: 30, multiplier: 3,   name: 'HARD',   color: '#e74c3c' }
 };
 
 // ===== Bank Management =====
@@ -176,7 +176,7 @@ function allIn() {
 }
 
 // ===== Maze Generation =====
-// Step 1: Recursive backtracker (perfect maze — one solution, all dead ends)
+// Step 1: Recursive backtracker
 // Step 2: Braiding — remove a % of dead-end walls to punch extra loops through,
 //         creating multiple plausible routes so the path is never "obvious at a glance".
 //         Braid rate scales per difficulty: easy=0.38, medium=0.26, hard=0.15
@@ -242,8 +242,8 @@ function generateMaze(size) {
 
     // --- Step 2: Braiding — knock down walls of dead-end cells ---
     // A dead end is a cell with exactly 3 walls still up (only one opening).
-    // For each dead end, we randomly remove one of its remaining closed walls
-    // (that leads to a valid neighbour), creating a loop.  We only do this
+    // For each dead end, I randomly remove one of its remaining closed walls
+    // (that leads to a valid neighbour), creating a loop.  So I only do this
     // with probability `braid` so the maze keeps some dead ends for flavour.
     for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
