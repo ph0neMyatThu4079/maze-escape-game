@@ -190,6 +190,13 @@
     color: var(--text-primary);
 }
 
+.top-bank {
+    background: linear-gradient(135deg, #dcc027, #f39c12);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 1.1rem;
+}
+
 .history-table tbody tr:hover { background: rgba(102, 126, 234, 0.05); }
 
 .time-sub       { font-size: 0.78rem; color: var(--text-secondary); }

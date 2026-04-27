@@ -2,23 +2,23 @@
 
 function loadStats() {
     const sessions = JSON.parse(localStorage.getItem('sessions') || '[]');
-    const bank     = parseInt(localStorage.getItem('playerBank') || '1000');
+    const bank = parseInt(localStorage.getItem('playerBank') || '1000');
 
     // Current session = last session that is NOT closed 
     // If it's closed (bankrupt or reset), there is no active session → show 0.
     const lastSession = sessions.length > 0 ? sessions[sessions.length - 1] : null;
-    const isCurrent   = lastSession && !lastSession.closed;
+    const isCurrent = lastSession && !lastSession.closed;
 
-    const curGames  = isCurrent ? (lastSession.games  || 0) : 0;
-    const curWins   = isCurrent ? (lastSession.wins   || 0) : 0;
+    const curGames = isCurrent ? (lastSession.games || 0) : 0;
+    const curWins = isCurrent ? (lastSession.wins || 0) : 0;
     const curLosses = isCurrent ? (lastSession.losses || 0) : 0;
-    const winRate   = curGames > 0 ? Math.round((curWins / curGames) * 100) : 0;
+    const winRate = curGames > 0 ? Math.round((curWins / curGames) * 100) : 0;
 
     // Summary cards 
-    setText('total-games',   curGames);
-    setText('player-wins',   curWins);
+    setText('total-games', curGames);
+    setText('player-wins', curWins);
     setText('player-losses', curLosses);
-    setText('current-bank',  '$' + bank.toLocaleString());
+    setText('current-bank', '$' + bank.toLocaleString());
 
     // Win-rate bar 
     const fill = document.getElementById('win-rate-fill');
@@ -27,14 +27,14 @@ function loadStats() {
 
     //  Per-difficulty breakdown (current session only) 
     ['easy', 'medium', 'hard'].forEach(key => {
-        const w = isCurrent ? parseInt(localStorage.getItem(`cur_wins_${key}`)   || '0') : 0;
+        const w = isCurrent ? parseInt(localStorage.getItem(`cur_wins_${key}`) || '0') : 0;
         const l = isCurrent ? parseInt(localStorage.getItem(`cur_losses_${key}`) || '0') : 0;
         const t = w + l;
         const r = t > 0 ? Math.round((w / t) * 100) : 0;
 
-        setText(`diff-${key}-wins`,   w);
+        setText(`diff-${key}-wins`, w);
         setText(`diff-${key}-losses`, l);
-        setText(`diff-${key}-rate`,   r + '%');
+        setText(`diff-${key}-rate`, r + '%');
 
         const bar = document.getElementById(`diff-${key}-bar`);
         if (bar) bar.style.width = r + '%';
@@ -53,7 +53,13 @@ function renderHistory(sessions) {
     const tbody = document.getElementById('history-body');
     if (!tbody) return;
 
-    const rows = [...sessions].reverse().slice(0, 20);
+    const rows = [...sessions].sort((a, b) => {
+        if (!a.closed) return -1;
+        if (!b.closed) return 1;
+        return (b.highestBank || 1000) - (a.highestBank || 1000);
+    }).slice(0, 20);
+
+    const highestBank = Math.max(...rows.map(s => s.highestBank || 1000));
 
     if (rows.length === 0) {
         tbody.innerHTML = `
@@ -66,12 +72,12 @@ function renderHistory(sessions) {
     }
 
     tbody.innerHTML = rows.map(s => {
-        const date    = new Date(s.startDate);
+        const date = new Date(s.startDate);
         const dateStr = date.toLocaleDateString();
         const timeStr = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-        // Highest bank: show $1,000 if never exceeded starting amount
         const highest = '$' + Math.max(s.highestBank || 1000, 1000).toLocaleString();
+        const isHighest = (s.highestBank || 1000) === highestBank;
 
         const statusBadge = s.closed
             ? '<span class="session-badge closed">Ended</span>'
@@ -80,10 +86,10 @@ function renderHistory(sessions) {
         return `
             <tr>
                 <td>${dateStr}<br><span class="time-sub">${timeStr}</span> ${statusBadge}</td>
-                <td>${s.games  || 0}</td>
-                <td class="win-color">${s.wins   || 0}</td>
+                <td>${s.games || 0}</td>
+                <td class="win-color">${s.wins || 0}</td>
                 <td class="loss-color">${s.losses || 0}</td>
-                <td class="highlight-bank">${highest}</td>
+                <td class="highlight-bank ${isHighest ? 'top-bank' : ''}">${highest} ${isHighest ? '🏆' : ''}</td>
             </tr>`;
     }).join('');
 }
@@ -104,7 +110,7 @@ function resetStats() {
 
     // Clear ALL current-session per-difficulty counters
     ['easy', 'medium', 'hard'].forEach(key => {
-        localStorage.setItem(`cur_wins_${key}`,   '0');
+        localStorage.setItem(`cur_wins_${key}`, '0');
         localStorage.setItem(`cur_losses_${key}`, '0');
     });
 
