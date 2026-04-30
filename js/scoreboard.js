@@ -4,8 +4,7 @@ function loadStats() {
     const sessions = JSON.parse(localStorage.getItem('sessions') || '[]');
     const bank = parseInt(localStorage.getItem('playerBank') || '1000');
 
-    // Current session = last session that is NOT closed 
-    // If it's closed (bankrupt or reset), there is no active session → show 0.
+    // get the latest session, only if it's still active
     const lastSession = sessions.length > 0 ? sessions[sessions.length - 1] : null;
     const isCurrent = lastSession && !lastSession.closed;
 
@@ -25,7 +24,7 @@ function loadStats() {
     if (fill) fill.style.width = winRate + '%';
     setText('win-percentage', winRate);
 
-    //  Per-difficulty breakdown (current session only) 
+    //  Per-difficulty breakdown for current session
     ['easy', 'medium', 'hard'].forEach(key => {
         const w = isCurrent ? parseInt(localStorage.getItem(`cur_wins_${key}`) || '0') : 0;
         const l = isCurrent ? parseInt(localStorage.getItem(`cur_losses_${key}`) || '0') : 0;
@@ -40,7 +39,7 @@ function loadStats() {
         if (bar) bar.style.width = r + '%';
     });
 
-    //  Session history table (all sessions and newest one first) 
+    //  Session history table
     renderHistory(sessions);
 }
 

@@ -380,7 +380,7 @@ function renderMaze() {
         }
     }
 
-    // Draw player
+    // draw player
     drawPlayer();
 }
 
@@ -413,7 +413,7 @@ function drawPlayer() {
 function updatePlayerOnCanvas() {
     if (!ctx || !canvas) return;
 
-    // Instead of full redraw we do a full render — maze is not huge, acceptable
+    // Instead of full redraw, just do a full render
     renderMaze();
 }
 
@@ -527,17 +527,14 @@ function endGame(won) {
         // Bankruptcy protection
         if (playerBank <= 0) {
             playerBank = 1000;
-            // NOTE: session is closed AFTER saveGameResult() below so the
-            // final loss gets recorded in the current session, not a new one.
-            // We set a flag here and act on it after saving.
             window._bankruptThisGame = true;
         }
     }
 
-    // Save result BEFORE clearing the bet so the amount is captured correctly
+    // save result before clearing the bet so the amount is captured correctly
     saveGameResult(won);
 
-    // Now close the session if bankruptcy occurred — after the loss is recorded
+    // close the session if bankruptcy occurred after the loss is recorded
     if (window._bankruptThisGame) {
         window._bankruptThisGame = false;
         const sessions = JSON.parse(localStorage.getItem('sessions') || '[]');
@@ -560,29 +557,27 @@ function endGame(won) {
 }
 
 function saveGameResult(won) {
-    // Update flat counters used by scoreboard summary cards
+    // update flat counters used by scoreboard summary cards
     const wins   = parseInt(localStorage.getItem('wins')   || '0');
     const losses = parseInt(localStorage.getItem('losses') || '0');
     if (won) localStorage.setItem('wins',   wins + 1);
     else     localStorage.setItem('losses', losses + 1);
 
-    // Update current session — a session runs from first game (or last reset) until reset.
-    // Each session: { startDate, games, wins, losses, highestBank, closed }
+    // update current session with a session runs from first game until reset.
     const sessions = JSON.parse(localStorage.getItem('sessions') || '[]');
     let current = sessions.length > 0 ? sessions[sessions.length - 1] : null;
 
     if (!current || current.closed) {
         current = { startDate: new Date().toISOString(), games: 0, wins: 0, losses: 0, highestBank: 1000, closed: false };
         sessions.push(current);
-        // New session started — wipe per-difficulty counters BEFORE incrementing below
+        // start a new session
         ['easy', 'medium', 'hard'].forEach(k => {
             localStorage.setItem('cur_wins_'   + k, '0');
             localStorage.setItem('cur_losses_' + k, '0');
         });
     }
 
-    // Per-difficulty counters — MUST come after the new-session block so the
-    // clear above doesn't wipe the increment we're about to write
+    // Per-difficulty counters after new-session block
     const diffKey = (currentDifficulty ? currentDifficulty.name : 'EASY').toLowerCase();
     const dw = parseInt(localStorage.getItem('cur_wins_'   + diffKey) || '0');
     const dl = parseInt(localStorage.getItem('cur_losses_' + diffKey) || '0');
