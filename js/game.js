@@ -587,8 +587,7 @@ function saveGameResult(won) {
     current.games++;
     if (won) current.wins++;
     else current.losses++;
-    // Only update highest if it exceeds the current recorded highest
-    // Minimum is always 1000 (the starting bank) — never track below that
+    // update highest bank if player did better than before
     if (playerBank > current.highestBank) current.highestBank = playerBank;
 
     localStorage.setItem('sessions', JSON.stringify(sessions));
