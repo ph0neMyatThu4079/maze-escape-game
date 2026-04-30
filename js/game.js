@@ -176,10 +176,6 @@ function allIn() {
 }
 
 // ===== Maze Generation =====
-// Step 1: Recursive backtracker
-// Step 2: Braiding — remove a % of dead-end walls to punch extra loops through,
-//         creating multiple plausible routes so the path is never "obvious at a glance".
-//         Braid rate scales per difficulty: easy=0.38, medium=0.26, hard=0.15
 function generateMaze(size) {
     // Braid rate by difficulty name
     const braidRate = { EASY: 0.38, MEDIUM: 0.26, HARD: 0.15 };
@@ -193,7 +189,7 @@ function generateMaze(size) {
         }))
     );
 
-    // --- Step 1: Recursive backtracker ---
+    // Step 1 - carve paths using recursive backtracker
     const stack = [];
     let current = { x: 0, y: 0 };
     maze[0][0].visited = true;
@@ -240,11 +236,7 @@ function generateMaze(size) {
         }
     }
 
-    // --- Step 2: Braiding — knock down walls of dead-end cells ---
-    // A dead end is a cell with exactly 3 walls still up (only one opening).
-    // For each dead end, I randomly remove one of its remaining closed walls
-    // (that leads to a valid neighbour), creating a loop.  So I only do this
-    // with probability `braid` so the maze keeps some dead ends for flavour.
+    // Step 2 - braiding, open up some dead ends to create extra routes
     for (let y = 0; y < size; y++) {
         for (let x = 0; x < size; x++) {
             const w = maze[y][x].walls;
@@ -284,9 +276,8 @@ function generateMaze(size) {
         }
     }
 
-    // --- Place exit — enforce minimum Manhattan distance from start (0,0) ---
-    // Ratio of max possible distance (size-1)*2 that the exit must be at least.
-    // Easy: 60%  Medium: 70%  Hard: 80%  — so the exit is always meaningfully far.
+    // place exit - make sure its far enough from the start
+    // Easy: 60%, Medium: 70%, Hard: 80%
     const minDistRatio = { EASY: 0.60, MEDIUM: 0.70, HARD: 0.80 };
     const ratio = minDistRatio[currentDifficulty ? currentDifficulty.name : 'MEDIUM'] ?? 0.70;
     const minDist = Math.floor((size - 1) * 2 * ratio);
@@ -301,7 +292,7 @@ function generateMaze(size) {
             case 3: exitX = 0;        exitY = Math.floor(Math.random() * size);   break; // left
         }
         attempts++;
-        // Relax constraint after many attempts to guarantee placement
+        // relax the distance rule if too many attempts
         const threshold = attempts > 50 ? Math.floor(minDist * 0.6) : minDist;
         if (exitX + exitY >= threshold) break;
     } while (true);
